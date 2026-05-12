@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>English Test | by.LSD_616</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- ЭКРАН ПРИВЕТСТВИЯ -->
+        <div class="screen welcome-screen active" id="welcomeScreen">
+            <div class="welcome-card">
+                <div class="welcome-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h1 class="glitch-text">ENGLISH TEST</h1>
+                <p class="welcome-sub">Проверь свои знания английской грамматики</p>
+                <div class="welcome-stats" id="lastResultPreview">
+                    <i class="fas fa-chart-line"></i> 
+                    <span>Загружаем статистику...</span>
+                </div>
+                <button class="btn-start" id="startTestBtn">
+                    <i class="fas fa-play"></i> НАЧАТЬ ТЕСТ
+                </button>
+                <div class="signature-pixel">by.LSD_616</div>
+            </div>
+        </div>
+
+        <!-- ЭКРАН ТЕСТА -->
+        <div class="screen test-screen" id="testScreen">
+            <div class="test-header">
+                <div class="test-meta">
+                    <span class="question-counter" id="questionCounter">Вопрос 1 / 25</span>
+                    <span class="timer-box" id="timerBox">
+                        <i class="fas fa-hourglass-half"></i>
+                        <span id="timerValue">30</span> сек
+                    </span>
+                </div>
+                <button class="home-button" id="homeButton">
+                    <i class="fas fa-home"></i>
+                </button>
+            </div>
+            <div class="question-card">
+                <div class="question-text" id="questionText">Загрузка...</div>
+                <div class="options-list" id="optionsList"></div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-percent" id="progressPercent">0%</div>
+            </div>
+        </div>
+
+        <!-- ЭКРАН РЕЗУЛЬТАТОВ -->
+        <div class="screen results-screen" id="resultsScreen">
+            <div class="results-card">
+                <h2 class="results-title">📊 ТЕСТ ЗАВЕРШЁН</h2>
+                <div class="score-display" id="scoreDisplay">
+                    <span class="score-number" id="scoreNumber">0</span>
+                    <span class="score-total">/ 25</span>
+                </div>
+                <div class="score-comment" id="scoreComment"></div>
+                <div class="results-stats">
+                    <div class="stat-row"><i class="fas fa-check-circle"></i> Правильно: <strong id="correctCount">0</strong></div>
+                    <div class="stat-row"><i class="fas fa-times-circle"></i> Неправильно: <strong id="wrongCount">0</strong></div>
+                    <div class="stat-row"><i class="fas fa-clock"></i> Время: <strong id="timeSpent">0 сек</strong></div>
+                </div>
+                <div class="results-buttons">
+                    <button class="btn-retry" id="retryTestBtn"><i class="fas fa-redo-alt"></i> Новый тест</button>
+                    <button class="btn-home" id="resultsHomeBtn"><i class="fas fa-home"></i> На главную</button>
+                </div>
+                <div class="signature-pixel">by.LSD_616</div>
+            </div>
+        </div>
+
+        <!-- Модальное окно подтверждения -->
+        <div class="modal-overlay" id="exitModal">
+            <div class="modal-box">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Выйти из теста?</h3>
+                <p>Прогресс будет потерян. Вы уверены?</p>
+                <div class="modal-buttons">
+                    <button class="modal-cancel" id="modalCancel">Отмена</button>
+                    <button class="modal-confirm" id="modalConfirm">Выйти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
