@@ -175,7 +175,7 @@ const FULL_BANK = [
 const TOTAL_QUESTIONS = 25;
 const TIME_PER_QUESTION = 30;
 
-let currentQuestions = [];      // выбранные 25 вопросов с перемешанными вариантами
+let currentQuestions = [];
 let currentIndex = 0;
 let userAnswers = [];
 let timerInterval = null;
@@ -184,7 +184,7 @@ let currentTimeLeft = TIME_PER_QUESTION;
 let isAnswerLocked = false;
 
 // --------------------------------------------------------------
-// 3. DOM-ЭЛЕМЕНТЫ (должны существовать в HTML)
+// 3. DOM-ЭЛЕМЕНТЫ
 // --------------------------------------------------------------
 const welcomeScreen = document.getElementById('welcomeScreen');
 const testScreen = document.getElementById('testScreen');
@@ -210,7 +210,7 @@ const timeSpentSpan = document.getElementById('timeSpent');
 const scoreCommentDiv = document.getElementById('scoreComment');
 
 // --------------------------------------------------------------
-// 4. РАБОТА С ИСТОРИЕЙ (localStorage)
+// 4. ИСТОРИЯ (localStorage)
 // --------------------------------------------------------------
 let testHistory = [];
 
@@ -250,7 +250,7 @@ function updateLastResultPreview() {
 }
 
 // --------------------------------------------------------------
-// 5. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ (перемешивание)
+// 5. ПЕРЕМЕШИВАНИЕ
 // --------------------------------------------------------------
 function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -347,7 +347,7 @@ function startTimerForCurrent() {
             if (currentTimeLeft <= 5) timerValueSpan.classList.add('pulse');
             if (currentTimeLeft <= 0) {
                 clearTimer();
-                handleAnswer(-1);  // нет ответа → неправильный
+                handleAnswer(-1);
             }
         }
     }, 1000);
@@ -366,6 +366,9 @@ function updateProgress() {
     progressPercent.textContent = `${Math.round(percent)}%`;
 }
 
+// --------------------------------------------------------------
+// 7. ФИНИШ ТЕСТА С ЭФФЕКТОМ GAME OVER (при ≤12)
+// --------------------------------------------------------------
 function finishTest() {
     clearTimer();
     const totalTimeSec = Math.floor((Date.now() - testStartTime) / 1000);
@@ -382,32 +385,29 @@ function finishTest() {
     const secs = totalTimeSec % 60;
     timeSpentSpan.textContent = minutes > 0 ? `${minutes}м ${secs}с` : `${secs}с`;
     
-    let comment = '';
-    if (score === 25) comment = '🎉 Идеально! Ты — гуру английского! 🎉';
-    else if (score >= 20) comment = '🏆 Отлично! Ты очень хорошо знаешь грамматику.';
-    else if (score >= 15) comment = '👍 Хорошо, но есть куда расти.';
-    else if (score >= 10) comment = '📚 Неплохо, стоит повторить правила.';
-    else comment = '💪 Начни с базы — у тебя получится!';
-    scoreCommentDiv.textContent = comment;
-    
-    triggerResultAnimation(score);
+    // Логика комментария и GAME OVER
+    if (score <= 12) {
+        // Эффект GAME OVER
+        scoreCommentDiv.innerHTML = '<div class="game-over-text">💀 GAME OVER 💀</div><div style="margin-top:10px;">Вы набрали слишком мало баллов. Попробуйте снова!</div>';
+        triggerGameOverEffect(); // рассыпание
+    } else if (score === 25) {
+        scoreCommentDiv.innerHTML = '🎉 Идеально! Ты — гуру английского! 🎉';
+        createConfetti();
+    } else if (score >= 20) {
+        scoreCommentDiv.innerHTML = '🏆 Отлично! Ты очень хорошо знаешь грамматику.';
+        createSparkles();
+    } else if (score >= 15) {
+        scoreCommentDiv.innerHTML = '👍 Хорошо, но есть куда расти.';
+    } else {
+        scoreCommentDiv.innerHTML = '📚 Неплохо, стоит повторить правила.';
+    }
     
     showScreen('results');
 }
 
 // --------------------------------------------------------------
-// 7. АНИМАЦИИ ПРИ РЕЗУЛЬТАТАХ
+// 8. ЭФФЕКТЫ: конфетти, звёздочки, GAME OVER (рассыпание)
 // --------------------------------------------------------------
-function triggerResultAnimation(score) {
-    if (score === 25) {
-        createConfetti();
-    } else if (score >= 20) {
-        createSparkles();
-    } else if (score <= 5) {
-        createSadEffect();
-    }
-}
-
 function createConfetti() {
     for (let i = 0; i < 100; i++) {
         const conf = document.createElement('div');
@@ -430,7 +430,6 @@ function createConfetti() {
 }
 
 function createSparkles() {
-    // небольшие звёздочки (можно добавить простые вспышки)
     for (let i = 0; i < 30; i++) {
         const star = document.createElement('div');
         star.textContent = '✨';
@@ -446,20 +445,36 @@ function createSparkles() {
     }
 }
 
-function createSadEffect() {
-    // небольшое сотрясение экрана результатов
+function triggerGameOverEffect() {
+    // Создаём 60 частиц, разлетающихся из центра экрана
+    const rect = document.body.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    for (let i = 0; i < 80; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'shatter-particle';
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 200;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+        particle.style.setProperty('--x', dx + 'px');
+        particle.style.setProperty('--y', dy + 'px');
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+        particle.style.background = `hsl(${Math.random() * 20 + 340}, 80%, 50%)`; // красные оттенки
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 1000);
+    }
+    // Небольшая тряска экрана результатов
     const resultsCard = document.querySelector('.results-card');
     if (resultsCard) {
         resultsCard.style.animation = 'shake 0.5s ease-in-out';
         setTimeout(() => resultsCard.style.animation = '', 500);
     }
-    // добавим грустный смайлик
-    const commentDiv = scoreCommentDiv;
-    if (commentDiv) commentDiv.innerHTML = '😢 ' + commentDiv.innerHTML;
 }
 
 // --------------------------------------------------------------
-// 8. НАВИГАЦИЯ И МОДАЛКА
+// 9. НАВИГАЦИЯ И МОДАЛКА
 // --------------------------------------------------------------
 function showScreen(screen) {
     welcomeScreen.classList.remove('active');
@@ -487,27 +502,21 @@ modalConfirm.addEventListener('click', () => {
 retryBtn.addEventListener('click', startTest);
 resultsHomeBtn.addEventListener('click', () => showScreen('welcome'));
 
-// Добавим CSS-анимацию тряски, если её нет в style.css
+// Добавляем недостающие стили (на случай, если style.css не подключён)
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
-    @keyframes shake {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        50% { transform: translateX(5px); }
-        75% { transform: translateX(-3px); }
-        100% { transform: translateX(0); }
-    }
     .confetti { position: fixed; pointer-events: none; z-index: 1001; }
     .option-item.disabled { pointer-events: none; opacity: 0.8; }
-    .option-item.correct { background: #10b98130; border-color: #10b981; }
+    .option-item.correct { background: #10b98130; border-color: #10b981; animation: correctFlash 0.4s; }
     .option-item.wrong { background: #ef444430; border-color: #ef4444; }
     .timer-box .pulse { animation: pulse 0.6s infinite; color: #ffb347; }
+    @keyframes correctFlash { 0% { background: rgba(16,185,129,0); } 50% { background: rgba(16,185,129,0.6); transform: scale(1.01); } 100% { background: rgba(16,185,129,0.3); } }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 `;
 document.head.appendChild(styleSheet);
 
 // --------------------------------------------------------------
-// 9. ИНИЦИАЛИЗАЦИЯ
+// 10. ИНИЦИАЛИЗАЦИЯ
 // --------------------------------------------------------------
 loadHistory();
 showScreen('welcome');

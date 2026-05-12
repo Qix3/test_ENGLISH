@@ -71,11 +71,11 @@ body {
     border-radius: 60px;
     padding: 12px 16px;
     margin-bottom: 35px;
-    font-size: 0.9rem;
     display: inline-flex;
     align-items: center;
     gap: 12px;
     backdrop-filter: blur(4px);
+    font-size: 0.9rem;
 }
 
 .btn-start {
@@ -91,12 +91,12 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    box-shadow: 0 8px 20px rgba(59,130,246,0.3);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
 }
 
 .btn-start:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 25px rgba(59,130,246,0.4);
+    box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
 }
 
 /* Шапка теста */
@@ -109,7 +109,7 @@ body {
     padding: 16px 24px;
     border-radius: 40px;
     margin-bottom: 24px;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .test-meta {
@@ -139,7 +139,7 @@ body {
 }
 
 .home-button {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     width: 42px;
     height: 42px;
@@ -161,7 +161,7 @@ body {
     backdrop-filter: blur(12px);
     border-radius: 40px;
     padding: 28px 24px;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     margin-bottom: 20px;
 }
 
@@ -182,7 +182,7 @@ body {
 
 .option-item {
     background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 60px;
     padding: 14px 20px;
     cursor: pointer;
@@ -206,7 +206,7 @@ body {
 }
 
 .option-item:hover {
-    background: rgba(59,130,246,0.2);
+    background: rgba(59, 130, 246, 0.2);
     transform: translateX(6px);
 }
 
@@ -228,7 +228,7 @@ body {
 
 /* Прогресс */
 .progress-container {
-    background: rgba(0,0,0,0.3);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 40px;
     padding: 12px 20px;
     display: flex;
@@ -266,7 +266,12 @@ body {
     border-radius: 56px;
     padding: 36px 28px;
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.results-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
 }
 
 .score-display {
@@ -293,6 +298,21 @@ body {
     font-weight: 500;
 }
 
+/* Специальный эффект GAME OVER */
+.game-over-text {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2rem;
+    color: #ff3333;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #aa0000;
+    animation: bloodPulse 0.8s infinite alternate;
+    margin-bottom: 20px;
+}
+
+@keyframes bloodPulse {
+    0% { opacity: 0.7; text-shadow: 0 0 5px red; }
+    100% { opacity: 1; text-shadow: 0 0 20px darkred, 0 0 5px red; }
+}
+
 .results-stats {
     background: #0f172a80;
     border-radius: 32px;
@@ -314,9 +334,11 @@ body {
     gap: 16px;
     justify-content: center;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
-.btn-retry, .btn-home {
+.btn-retry,
+.btn-home {
     background: #2d3a5e;
     border: none;
     padding: 12px 24px;
@@ -330,7 +352,8 @@ body {
     gap: 8px;
 }
 
-.btn-retry:hover, .btn-home:hover {
+.btn-retry:hover,
+.btn-home:hover {
     transform: translateY(-2px);
     background: #3b82f6;
 }
@@ -342,7 +365,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
     display: none;
     align-items: center;
@@ -366,11 +389,12 @@ body {
 .modal-buttons {
     display: flex;
     gap: 12px;
-    margin-top: 24px;
     justify-content: center;
+    margin-top: 24px;
 }
 
-.modal-cancel, .modal-confirm {
+.modal-cancel,
+.modal-confirm {
     padding: 8px 18px;
     border-radius: 40px;
     border: none;
@@ -401,21 +425,61 @@ body {
 }
 
 @keyframes correctFlash {
-    0% { background: rgba(16,185,129,0); border-color: #fff; }
-    50% { background: rgba(16,185,129,0.6); border-color: #10b981; transform: scale(1.01);}
-    100% { background: rgba(16,185,129,0.3); border-color: #10b981; }
+    0% {
+        background: rgba(16, 185, 129, 0);
+        border-color: #fff;
+    }
+    50% {
+        background: rgba(16, 185, 129, 0.6);
+        border-color: #10b981;
+        transform: scale(1.01);
+    }
+    100% {
+        background: rgba(16, 185, 129, 0.3);
+        border-color: #10b981;
+    }
 }
 
 @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-    100% { transform: translateY(0px); }
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-3px);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 .signature-pixel {
@@ -429,10 +493,51 @@ body {
 
 /* Адаптив */
 @media (max-width: 550px) {
-    .welcome-card { padding: 30px 20px; }
-    .glitch-text { font-size: 1.8rem; }
-    .question-text { font-size: 1.1rem; }
-    .option-item { padding: 10px 14px; }
-    .test-header { padding: 12px 18px; }
-    .results-buttons { flex-direction: column; }
+    .welcome-card {
+        padding: 30px 20px;
+    }
+    .glitch-text {
+        font-size: 1.8rem;
+    }
+    .question-text {
+        font-size: 1.1rem;
+    }
+    .option-item {
+        padding: 10px 14px;
+    }
+    .test-header {
+        padding: 12px 18px;
+    }
+    .results-buttons {
+        flex-direction: column;
+    }
+    .score-number {
+        font-size: 3.5rem;
+    }
+    .game-over-text {
+        font-size: 1.3rem;
+    }
+}
+
+/* Частицы для рассыпания (GAME OVER) */
+.shatter-particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: crimson;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 2000;
+    animation: flyAway 1s ease-out forwards;
+}
+
+@keyframes flyAway {
+    0% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translate(var(--x, 0), var(--y, 0)) scale(0);
+        opacity: 0;
+    }
 }
